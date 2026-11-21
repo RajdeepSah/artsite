@@ -93,7 +93,7 @@ body.is-loading .hud__title, body.hud-hidden .hud__title { transform: translate(
   opacity: 0; pointer-events: none;
 }
 .flip-image {
-  position: fixed; z-index: 600; margin: 0; object-fit: cover;
+  position: fixed; z-index: 460; margin: 0; object-fit: cover;
   transform-origin: 0 0; pointer-events: none;
   box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
 }

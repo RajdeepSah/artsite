@@ -2,7 +2,7 @@
 
 Keep this file up to date at the end of every work session.
 
-**Status:** In progress. Current phase: 3 (transitions) and 4 (product page).
+**Status:** In progress. Phases 0-6 done, now on phase 7 (mobile/a11y) and phase 8 (tests).
 
 ## Phase checklist
 
@@ -30,33 +30,34 @@ Keep this file up to date at the end of every work session.
 - [x] Current collection detection → HUD
 - [x] Prev/next collection buttons
 - [x] Auto camera yaw so the inner wall cuts the view at ~21% from the left (like the video)
-- [ ] Keyboard walking (arrow keys)
+- [x] Keyboard walking (arrow keys, PageUp/PageDown for collections)
 
-### Phase 3: Transitions
-- [ ] Hover: lift print + cursor pill (scene side done, needs wiring check)
-- [ ] Click → camera flies to the print
-- [ ] Gallery fades to white, print image slides into the product page layout
-- [ ] Back to gallery: reverse fade + camera returns to the walking path
+### Phase 3: Transitions ✅
+- [x] Hover: print lifts + cursor shows black "Open the print" pill
+- [x] Click → camera flies to the print
+- [x] Gallery fades to white, print image slides into the product page layout, details rise in
+- [x] Back to gallery: page fades, camera zooms back out to the walking path
+- [x] List cards also slide their image into the product page
 
-### Phase 4: Product page
-- [ ] Layout (image left, details right), breadcrumb "‹ Prints"
-- [ ] Options: paper, size, signature, frame (with thumbnails), live price
-- [ ] Quantity stepper, Add to bag, accordions
-- [ ] Image views (1/3), View in room, save (bookmark)
-- [ ] "Get the collection" section
+### Phase 4: Product page ✅
+- [x] Layout (image left, details right), back link
+- [x] Options: paper, size, signature, frame (with thumbnails), live price
+- [x] Quantity stepper, Add to bag (opens bag), accordions
+- [x] Image views (1/3), View in room (art scales with size, shows frame), save (bookmark)
+- [x] "Get the collection" section
 
-### Phase 5: Commerce
-- [ ] Bag drawer (blurred backdrop), qty/remove, subtotal, checkout button
-- [ ] Saved prints drawer
-- [ ] Checkout form + order confirmation (front-end demo, no payments)
-- [ ] Currency conversion everywhere
+### Phase 5: Commerce ✅
+- [x] Bag drawer (blurred backdrop), qty/remove, subtotal, checkout button
+- [x] Saved prints drawer
+- [x] Checkout form with validation + order confirmation (front-end demo, no payments)
+- [x] Currency conversion everywhere (USD, GBP, EUR, INR)
 
-### Phase 6: Other pages
-- [ ] List / Shop view with filters and sort
-- [ ] Collection pages
-- [ ] ⌘K search palette
-- [ ] Info, Auctions (countdowns), Help (FAQ + contact form)
-- [ ] Account modal, settings popover (reduce motion, quality)
+### Phase 6: Other pages ✅
+- [x] List / Shop view with filters and sort
+- [x] Collection pages (+ "See it in the gallery" walks there)
+- [x] ⌘K / Ctrl+K / "/" search palette with keyboard navigation
+- [x] Info, Auctions (live countdowns, bidding), Help (FAQ + contact form)
+- [x] Account modal (local sign-in + order history), settings (reduce motion, quality)
 
 ### Phase 7: Quality
 - [ ] Mobile layout + touch

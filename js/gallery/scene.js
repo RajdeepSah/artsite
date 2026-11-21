@@ -146,7 +146,7 @@ export async function createGallery(o) {
   const boxGeo = new THREE.BoxGeometry(1, 1, 1);
   const planeGeo = new THREE.PlaneGeometry(1, 1);
   const edgeMat = new THREE.MeshBasicMaterial({ color: new THREE.Color('#e4e4e4') });
-  const archMat = new THREE.MeshBasicMaterial({ map: archTexture(), transparent: true, opacity: 0.8, depthWrite: false });
+  const archMat = new THREE.MeshBasicMaterial({ map: archTexture(), transparent: true, opacity: 0.7, depthWrite: false });
   const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTexture(), color: 0x000000, transparent: true, opacity: 0.16, depthWrite: false });
   const frontMats = new Map();
   const labelCache = new Map();
@@ -481,6 +481,7 @@ export async function createGallery(o) {
     const s = item.s - (item.wall === 'outer' ? 3.6 : 5.6);
     state.target = s;
     state.s = s;
+    updateCurrentCollection();
     await animateCamera(walkPose(s), duration);
     state.focusItem = null;
     state.mode = 'walk';
@@ -520,6 +521,20 @@ export async function createGallery(o) {
     }
     const left = Math.min(...xs), top = Math.min(...ys);
     return { left, top, width: Math.max(...xs) - left, height: Math.max(...ys) - top };
+  }
+
+  /** Items currently in front of the camera with their screen rectangles (used by tests). */
+  function visibleItems() {
+    const out = [];
+    const v = new THREE.Vector3();
+    for (const it of items) {
+      it.mesh.getWorldPosition(v);
+      const dist = v.distanceTo(camera.position);
+      v.project(camera);
+      if (v.z < -1 || v.z > 1 || Math.abs(v.x) > 1 || Math.abs(v.y) > 1) continue;
+      out.push({ item: it, rect: getScreenRect(it), distance: dist });
+    }
+    return out.sort((a, b) => a.distance - b.distance);
   }
 
   function resetHover(item) {
@@ -604,6 +619,7 @@ export async function createGallery(o) {
     getScreenRect,
     goToCollection,
     findPrint,
+    visibleItems,
     next: () => step(1),
     prev: () => step(-1),
     walk: (d) => { if (state.mode === 'walk') state.target += d; },
