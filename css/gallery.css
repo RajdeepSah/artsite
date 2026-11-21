@@ -1,0 +1,105 @@
+/* ==========================================================================
+   3D gallery, bottom HUD and custom cursor
+   ========================================================================== */
+
+.gallery {
+  position: fixed; inset: 0; z-index: 1;
+  background: var(--bg);
+  transition: opacity .6s var(--ease);
+}
+.gallery__canvas {
+  width: 100%; height: 100%;
+  cursor: none; touch-action: none; outline: none;
+}
+.gallery__canvas.is-dragging { cursor: grabbing; }
+body[data-view="page"] .gallery { visibility: hidden; }
+body.is-transitioning .gallery { visibility: visible; }
+
+/* ---- HUD */
+.hud { position: absolute; inset: auto 0 0 0; pointer-events: none; }
+.hud__title {
+  position: absolute; left: 50%; bottom: clamp(26px, 6vh, 64px);
+  transform: translateX(-50%);
+  display: grid; justify-items: center; gap: 8px; text-align: center;
+  width: min(560px, 80vw);
+}
+.hud__kicker { font-size: 8.5px; color: var(--muted); letter-spacing: .24em; }
+.hud__name {
+  position: relative; overflow: hidden;
+  font-size: clamp(22px, 2.3vw, 34px);
+  min-height: 1.05em; width: 100%;
+}
+.hud__name span { display: block; }
+.hud__name span.is-leaving { position: absolute; inset: 0; animation: hud-out .5s var(--ease) forwards; }
+.hud__name span.is-entering { animation: hud-in .6s var(--ease-out) both; }
+@keyframes hud-out { to { transform: translateY(-100%); opacity: 0; } }
+@keyframes hud-in { from { transform: translateY(100%); opacity: 0; } }
+.hud__enter {
+  pointer-events: auto; font-size: 8.5px; letter-spacing: .2em;
+  text-decoration: underline; text-underline-offset: 3px; color: var(--ink-2);
+}
+.hud__enter:hover { color: var(--ink); }
+
+.hud__controls {
+  position: absolute; right: var(--gutter); bottom: clamp(22px, 4vh, 40px);
+  display: grid; justify-items: end; gap: 22px;
+}
+.hud__arrows { display: flex; gap: 8px; pointer-events: auto; }
+.round-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--line); background: rgba(255, 255, 255, .4); color: var(--ink-2);
+  transition: border-color .2s, background .2s, transform .2s;
+}
+.round-btn:hover { border-color: var(--ink); background: #fff; }
+.round-btn:active { transform: scale(.94); }
+.round-btn .icon { width: 13px; height: 13px; }
+.hud__hint { font-size: 8.5px; letter-spacing: .2em; text-align: right; color: var(--muted); line-height: 1.9; }
+
+/* HUD visibility */
+.hud > * { transition: opacity .5s var(--ease), transform .6s var(--ease-out); }
+body.is-loading .hud > *, body.hud-hidden .hud > * { opacity: 0; }
+body.is-loading .hud__title, body.hud-hidden .hud__title { transform: translate(-50%, 14px); }
+
+/* ---- custom cursor (only on devices with a mouse) */
+.cursor {
+  position: fixed; left: 0; top: 0; z-index: 450;
+  pointer-events: none; display: none;
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  body[data-view="gallery"]:not(.is-loading) .cursor.is-visible { display: block; }
+}
+.cursor__ring {
+  position: absolute; left: -7px; top: -7px; width: 14px; height: 14px;
+  border: 1.5px solid #3a3a3a; border-radius: 50%;
+  transition: transform .25s var(--ease-out), background .25s;
+}
+.cursor.is-down .cursor__ring { transform: scale(.7); background: rgba(0, 0, 0, .15); }
+.cursor.is-hovering .cursor__ring { transform: scale(1.25); }
+.cursor__label {
+  position: absolute; left: 16px; top: -11px;
+  height: 22px; padding: 0 11px; border-radius: var(--radius-pill);
+  display: flex; align-items: center; white-space: nowrap;
+  background: var(--ink); color: #fff; font-size: 8.5px; letter-spacing: .18em;
+  opacity: 0; transform: translateX(-6px) scale(.9); transform-origin: left center;
+  transition: opacity .2s, transform .3s var(--ease-out);
+}
+.cursor.is-hovering .cursor__label { opacity: 1; transform: none; }
+
+/* white veil used during the gallery -> product transition */
+.veil {
+  position: fixed; inset: 0; z-index: 2; background: var(--bg);
+  opacity: 0; pointer-events: none;
+}
+.flip-image {
+  position: fixed; z-index: 600; margin: 0; object-fit: cover;
+  transform-origin: 0 0; pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+}
+
+@media (max-width: 760px) {
+  .hud__title { bottom: 92px; width: calc(100vw - 32px); }
+  .hud__controls { left: var(--gutter); right: var(--gutter); bottom: 22px; justify-items: center; gap: 10px; }
+  .hud__hint { text-align: center; }
+}
