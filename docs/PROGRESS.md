@@ -2,7 +2,8 @@
 
 Keep this file up to date at the end of every work session.
 
-**Status:** In progress. Phases 0-6 done, now on phase 7 (mobile/a11y) and phase 8 (tests).
+**Status: ✅ Complete.** All 8 phases are done and all 18 browser tests pass.
+Remaining work is optional (see "Ideas for later") plus swapping in the real artwork.
 
 ## Phase checklist
 
@@ -22,15 +23,13 @@ Keep this file up to date at the end of every work session.
 - [x] Custom ring cursor with black "Open the print" pill
 - [x] Loading screen with progress bar
 
-### Phase 2: 3D gallery ✅ (basic version done, polish later)
+### Phase 2: 3D gallery ✅
 - [x] Ring-shaped corridor (lathe geometry, soft coves, vertex colour shading, fog)
-- [x] Prints on outer wall + every 4th print on the inner wall
+- [x] Prints on the outer wall + every 4th print on the inner wall; sequence repeats round the ring
 - [x] Grey collection title cards, wall labels, soft arches, drop shadows
-- [x] Walk with mouse wheel, drag (mouse/touch) with inertia
-- [x] Current collection detection → HUD
-- [x] Prev/next collection buttons
-- [x] Auto camera yaw so the inner wall cuts the view at ~21% from the left (like the video)
-- [x] Keyboard walking (arrow keys, PageUp/PageDown for collections)
+- [x] Walk with mouse wheel, drag (mouse/touch) with inertia, arrow keys, PageUp/PageDown
+- [x] Current collection detection → HUD; prev/next collection buttons
+- [x] Auto camera turn so the inner wall cuts the view ~21% from the left (like the video)
 
 ### Phase 3: Transitions ✅
 - [x] Hover: print lifts + cursor shows black "Open the print" pill
@@ -38,6 +37,7 @@ Keep this file up to date at the end of every work session.
 - [x] Gallery fades to white, print image slides into the product page layout, details rise in
 - [x] Back to gallery: page fades, camera zooms back out to the walking path
 - [x] List cards also slide their image into the product page
+- [x] Safe if the visitor navigates away mid-transition
 
 ### Phase 4: Product page ✅
 - [x] Layout (image left, details right), back link
@@ -64,20 +64,30 @@ Keep this file up to date at the end of every work session.
 - [x] Keyboard: arrows walk, PageUp/PageDown change collection, Enter opens the centred print, Esc leaves a product page
 - [x] Screen readers: live HUD region, labelled buttons, focus moves to page headings, focus trap in drawers
 - [x] WebGL fallback (goes to the list view with a message)
-- [x] Performance: renders only when something moves, shared textures/materials, pixel ratio capped (lower in "low quality")
+- [x] Performance: renders only when something moves, shared textures/materials, capped pixel ratio
 - [x] Any navigation closes open drawers/modals
 
-### Phase 8: Testing + docs
-- [x] `tests/e2e.cjs` browser test suite (17 tests, all passing)
-- [ ] Visual comparison with the video
-- [ ] Final docs
+### Phase 8: Testing + docs ✅
+- [x] `tests/e2e.cjs` browser test suite (18 tests, all passing)
+- [x] Visual comparison with the video (gallery, product page, bag drawer)
+- [x] README, CUSTOMIZE, PLAN (with design notes), font licences, screenshots
+
+## Ideas for later (optional)
+
+- [ ] Replace placeholder art with real artwork (see CUSTOMIZE.md), then re-run `npm test`
+- [ ] Real payments (Stripe Checkout / Shopify) in `js/ui/checkout.js`
+- [ ] Send contact form + auction bids to a backend or form service
+- [ ] Real accounts (currently stored in the browser only)
+- [ ] Optimise images to WebP and add `srcset` for the list view
+- [ ] A custom display font closer to the video's quirky condensed face
+- [ ] Sound design (soft footsteps / ambience) with a mute toggle
 
 ## How to test
 
 ```bash
 npm start                        # or: node tests/serve.cjs 8080 -> http://localhost:8080
 npm install && npx playwright install chromium   # first time only
-npm test                         # runs tests/e2e.cjs (17 browser tests)
+npm test                         # runs tests/e2e.cjs (18 browser tests)
 node tests/e2e.cjs bag           # run only tests whose name contains "bag"
 ```
 
@@ -85,5 +95,12 @@ Run `npm test` before every commit.
 
 ## Notes for the next session
 
+- Start with `README.md`, then this file. All content is in `data/catalog.json`.
 - Gallery tuning values are in `CFG` at the top of `js/gallery/scene.js`.
-- In the browser console, `window.__gallery.debug` exposes the camera, scene and state.
+- In the browser console, `window.__gallery.debug` exposes the camera, scene, renderer and state;
+  `window.__gallery.visibleItems()` lists prints on screen (used by the tests).
+- Views: `js/main.js` decides between the 3D gallery and the page layer (`#page-view`) and runs
+  the transitions. Each page is a `render...()` function in `js/ui/` that returns an element.
+- Page code that listens to store changes must use `ctx.onStore(...)`, so listeners are removed
+  automatically when the page changes.
+- Git author for all commits: Rajdeep Sah.
