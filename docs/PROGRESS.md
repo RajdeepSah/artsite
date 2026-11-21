@@ -59,22 +59,29 @@ Keep this file up to date at the end of every work session.
 - [x] Info, Auctions (live countdowns, bidding), Help (FAQ + contact form)
 - [x] Account modal (local sign-in + order history), settings (reduce motion, quality)
 
-### Phase 7: Quality
-- [ ] Mobile layout + touch
-- [ ] Keyboard + screen reader support
-- [ ] WebGL fallback (go to list view)
-- [ ] Performance checks
+### Phase 7: Quality ✅
+- [x] Mobile layout + touch (swipe to walk, tap to open, stacked product page, menu with account/settings)
+- [x] Keyboard: arrows walk, PageUp/PageDown change collection, Enter opens the centred print, Esc leaves a product page
+- [x] Screen readers: live HUD region, labelled buttons, focus moves to page headings, focus trap in drawers
+- [x] WebGL fallback (goes to the list view with a message)
+- [x] Performance: renders only when something moves, shared textures/materials, pixel ratio capped (lower in "low quality")
+- [x] Any navigation closes open drawers/modals
 
 ### Phase 8: Testing + docs
-- [ ] `tests/e2e.cjs` browser test suite
+- [x] `tests/e2e.cjs` browser test suite (17 tests, all passing)
 - [ ] Visual comparison with the video
 - [ ] Final docs
 
 ## How to test
 
 ```bash
-node tests/serve.cjs 8080        # then open http://localhost:8080
+npm start                        # or: node tests/serve.cjs 8080 -> http://localhost:8080
+npm install && npx playwright install chromium   # first time only
+npm test                         # runs tests/e2e.cjs (17 browser tests)
+node tests/e2e.cjs bag           # run only tests whose name contains "bag"
 ```
+
+Run `npm test` before every commit.
 
 ## Notes for the next session
 

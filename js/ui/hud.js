@@ -9,6 +9,11 @@ export function createHud({ onPrev, onNext }) {
   $('#walk-prev').addEventListener('click', onPrev);
   $('#walk-next').addEventListener('click', onNext);
 
+  // Touch screens: swipe/tap instead of scroll/click.
+  if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+    $('.hud__hint').innerHTML = 'Swipe to walk round<br>Tap a painting to look closer';
+  }
+
   function setCollection(collection) {
     if (!collection || collection.slug === currentSlug) return;
     currentSlug = collection.slug;

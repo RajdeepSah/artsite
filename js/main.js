@@ -3,14 +3,14 @@
 import { loadCatalog } from './data.js';
 import { store } from './store.js';
 import { formatPrice } from './pricing.js';
-import { route, startRouter, navigate, getPrevious, currentPath } from './router.js';
+import { route, startRouter, navigate, currentPath } from './router.js';
 import { $, wait, toast, reducedMotion } from './utils.js';
 import { createHud } from './ui/hud.js';
 import { createCursor } from './ui/cursor.js';
 import { initHeader } from './ui/header.js';
 import { openBag } from './ui/bag.js';
 import { applySettings } from './ui/settings.js';
-import { openOverlayName } from './ui/overlay.js';
+import { openOverlayName, closeOverlay } from './ui/overlay.js';
 import { veil, createFloatingImage, flipTo, imageReady } from './ui/transition.js';
 import { renderProduct } from './ui/product.js';
 import { renderList } from './ui/list.js';
@@ -252,6 +252,9 @@ pageView.addEventListener('click', (e) => {
   navigate(`/print/${card.dataset.print}`);
 });
 
+// Any navigation (links, back/forward buttons) closes an open drawer or modal.
+window.addEventListener('hashchange', () => closeOverlay());
+
 // Keyboard: arrows walk in the gallery, Escape leaves a product page.
 document.addEventListener('keydown', (e) => {
   if (openOverlayName() || /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
@@ -260,6 +263,14 @@ document.addEventListener('keydown', (e) => {
     if (d) { e.preventDefault(); gallery.walk(d); }
     if (e.key === 'PageDown') { e.preventDefault(); gallery.next(); }
     if (e.key === 'PageUp') { e.preventDefault(); gallery.prev(); }
+    if (e.key === 'Enter' && document.activeElement?.id === 'gallery-canvas') {
+      // open the print closest to the centre of the screen
+      const cx = innerWidth / 2;
+      const best = gallery.visibleItems()
+        .filter((v) => v.item.type === 'print' && v.distance < 14)
+        .sort((a, b) => Math.abs(a.rect.left + a.rect.width / 2 - cx) - Math.abs(b.rect.left + b.rect.width / 2 - cx))[0];
+      if (best) { e.preventDefault(); onSelect(best.item); }
+    }
   } else if (mode === 'page' && e.key === 'Escape' && currentPage?.type === 'product') {
     location.hash = ctx.backHref || '#/';
   }

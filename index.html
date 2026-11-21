@@ -20,7 +20,7 @@
   <script type="module" src="js/main.js"></script>
 </head>
 <body class="is-loading" data-view="gallery">
-  <a class="skip-link" href="#page-view">Skip to content</a>
+  <a class="skip-link" href="#/list">Skip to the list of prints</a>
 
   <!-- Loading screen -->
   <div class="loader" id="loader" role="status" aria-live="polite">
@@ -41,6 +41,8 @@
         <a href="#/info" data-nav="info">Info</a>
         <a href="#/auctions" data-nav="auctions">Auctions</a>
         <a href="#/help" data-nav="help">Help</a>
+        <button type="button" class="main-nav__extra" data-open="account">Account</button>
+        <button type="button" class="main-nav__extra" data-open="settings">Settings</button>
       </nav>
     </div>
     <div class="site-header__right">
@@ -84,7 +86,7 @@
   <main>
     <!-- 3D gallery -->
     <section class="gallery" id="gallery" aria-label="3D gallery">
-      <canvas class="gallery__canvas" id="gallery-canvas" tabindex="0" aria-label="Gallery. Use arrow keys to walk, or switch to the list view."></canvas>
+      <canvas class="gallery__canvas" id="gallery-canvas" tabindex="0" aria-label="3D gallery. Use the arrow keys to walk and Enter to open the painting in front of you."></canvas>
 
       <div class="hud" id="hud">
         <div class="hud__title">

@@ -99,7 +99,13 @@ body.is-loading .hud__title, body.hud-hidden .hud__title { transform: translate(
 }
 
 @media (max-width: 760px) {
-  .hud__title { bottom: 92px; width: calc(100vw - 32px); }
-  .hud__controls { left: var(--gutter); right: var(--gutter); bottom: 22px; justify-items: center; gap: 10px; }
-  .hud__hint { text-align: center; }
+  .hud__title { bottom: calc(84px + env(safe-area-inset-bottom)); width: calc(100vw - 32px); gap: 6px; }
+  .hud__name { font-size: 26px; }
+  .hud__controls {
+    left: var(--gutter); right: var(--gutter); bottom: calc(18px + env(safe-area-inset-bottom));
+    grid-template-columns: auto 1fr; align-items: center; justify-items: stretch; gap: 14px;
+  }
+  .hud__arrows { order: 2; }
+  .hud__hint { text-align: left; font-size: 8px; line-height: 1.7; }
+  .round-btn { width: 40px; height: 40px; }
 }

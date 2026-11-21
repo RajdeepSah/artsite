@@ -258,6 +258,8 @@ export async function createGallery(o) {
     focusItem: null,
   };
 
+  let forceFrames = 3; // render a few frames after start / resize, even when standing still
+
   const UP = new THREE.Vector3(0, 1, 0);
   function walkPose(s) {
     const theta = -s / CAM_R;
@@ -280,12 +282,13 @@ export async function createGallery(o) {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     // portrait screens need a wider field of view to see enough of the corridor
-    camera.fov = camera.aspect < 0.8 ? 68 : camera.aspect < 1.3 ? 58 : 50;
+    camera.fov = camera.aspect < 0.8 ? 58 : camera.aspect < 1.3 ? 56 : 50;
     camera.updateProjectionMatrix();
     // Turn the camera so the inner wall cuts off the view at the same place as in the video.
     const halfH = Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.aspect);
-    const target = camera.aspect < 1 ? 0.82 : CFG.silhouette;
+    const target = camera.aspect < 1 ? 0.88 : CFG.silhouette;
     state.yaw = clamp(Math.atan(target * Math.tan(halfH)) - SILHOUETTE, -0.3, 0.45);
+    forceFrames = 3;
   }
   window.addEventListener('resize', resize);
   resize();
@@ -545,6 +548,8 @@ export async function createGallery(o) {
   // ------------------------------------------------------------ loop
   const clock = new THREE.Clock();
   let rafId = 0;
+  const lastPos = new THREE.Vector3();
+  const lastQuat = new THREE.Quaternion();
 
   function frame() {
     rafId = 0;
@@ -577,9 +582,11 @@ export async function createGallery(o) {
     updateHover();
 
     // hover lift animation
+    let animating = false;
     for (const it of items) {
       const goal = it === state.hovered ? 1 : 0;
       if (it.hover !== goal) {
+        animating = true;
         it.hover = Math.abs(it.hover - goal) < 0.002 ? goal : damp(it.hover, goal, 10, dt);
         const k = 1 + it.hover * 0.03;
         it.mesh.scale.set(it.w * k, it.h * k, it.depth);
@@ -587,12 +594,20 @@ export async function createGallery(o) {
       }
     }
 
-    renderer.render(scene, camera);
+    // Only draw when something changed (saves battery when standing still).
+    const moved = camera.position.distanceToSquared(lastPos) > 1e-10 || 1 - Math.abs(camera.quaternion.dot(lastQuat)) > 1e-10;
+    if (moved || animating || forceFrames > 0) {
+      renderer.render(scene, camera);
+      lastPos.copy(camera.position);
+      lastQuat.copy(camera.quaternion);
+      forceFrames = Math.max(0, forceFrames - 1);
+    }
     rafId = requestAnimationFrame(frame);
   }
 
   function ensureRunning() {
     state.running = true;
+    forceFrames = 3;
     if (!rafId) {
       clock.getDelta();
       rafId = requestAnimationFrame(frame);

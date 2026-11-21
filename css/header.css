@@ -72,6 +72,7 @@ body[data-view="page"] .site-header { background: rgba(242, 242, 242, .92); back
 @keyframes bump { 40% { transform: scale(1.5); } }
 
 .menu-btn { display: none; }
+.main-nav__extra { display: none; }
 
 /* gallery / list toggle */
 .view-toggle {
@@ -106,7 +107,8 @@ body.hide-toggle .view-toggle { opacity: 0; pointer-events: none; transform: tra
     transition: opacity .3s, transform .3s var(--ease-out), visibility .3s;
   }
   .main-nav.is-open { transform: none; opacity: 1; visibility: visible; }
-  .main-nav a { font-size: 24px; padding: 8px 0; }
+  .main-nav a, .main-nav__extra { font-family: var(--f-serif); font-size: 24px; padding: 8px 0; text-align: left; color: var(--ink-2); }
+  .main-nav__extra { display: block; font-size: 18px; color: var(--muted); }
   .main-nav a::after { display: none; }
   .site-header__right { gap: 4px; }
 }

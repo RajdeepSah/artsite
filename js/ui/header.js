@@ -52,7 +52,11 @@ export function initHeader(ctx) {
     menuBtn.setAttribute('aria-expanded', String(open));
   };
   menuBtn.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
-  nav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+  nav.addEventListener('click', (e) => {
+    const extra = e.target.closest('[data-open]');
+    if (extra) (extra.dataset.open === 'account' ? openAccount : openSettings)(ctx);
+    if (e.target.closest('a, [data-open]')) setMenu(false);
+  });
   window.addEventListener('hashchange', () => setMenu(false));
 
   // gallery / list toggle
