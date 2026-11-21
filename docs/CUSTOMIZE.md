@@ -1,18 +1,22 @@
 # Customising the site
 
 All content lives in **one file**: `data/catalog.json`. You don't need to touch any code to change
-artwork, prices or text.
+artwork, prices or text. After editing, reload the page.
+
+> JSON is strict: use double quotes, add commas between items, and don't add comments.
+> If the site stops loading after an edit, paste the file into <https://jsonlint.com> to find the typo.
 
 ## Replace the placeholder artwork
 
-1. Put your image in `assets/artworks/`, e.g. `assets/artworks/my-print.jpg`.
-   - JPG or WebP, about 1200-1600 px on the long side, under ~400 KB each.
-   - Any aspect ratio works. The gallery reads the real image size.
-2. In `data/catalog.json`, point the print's `"image"` at the new file.
-3. Reload the page.
+**Easiest:** overwrite a placeholder with your image using the **same file name**, e.g. replace
+`assets/artworks/first-touch.jpg`.
 
-To swap an image without editing JSON, overwrite the file with the same name
-(e.g. replace `assets/artworks/first-touch.jpg`).
+**Or:** put your image in `assets/artworks/` and change that print's `"image"` value in
+`data/catalog.json`.
+
+Tips:
+- JPG or WebP, about 1200-1600 px on the long side, ideally under 400 KB each.
+- Any aspect ratio works. The gallery, product page and list all use the real image shape.
 
 ## Add a print
 
@@ -20,35 +24,62 @@ Add an object to the `"prints"` list:
 
 ```json
 {
-  "slug": "my-print",                 // unique, used in the URL: #/print/my-print
+  "slug": "my-print",
   "title": "My Print",
-  "collection": "sunday-league",      // slug of a collection below
+  "collection": "sunday-league",
   "year": 2026,
-  "basePrice": 50,                    // USD, smallest size (A3) on budget paper
-  "edition": 25,                      // "Limited edition of 25"
+  "basePrice": 50,
+  "edition": 25,
   "image": "assets/artworks/my-print.jpg",
-  "description": "Optional. If left out, the collection description is used."
+  "description": "Optional text for the product page."
 }
 ```
 
-`"theme"` and `"ratio"` are only used by the placeholder generator, so you can delete them.
+| Field | Meaning |
+| ----- | ------- |
+| `slug` | Unique id used in the URL (`#/print/my-print`). Lowercase, use dashes. |
+| `title` | Print name (shown as the product subtitle and on the wall label). |
+| `collection` | The `slug` of the collection it belongs to. |
+| `year` | Year shown on the wall label. |
+| `basePrice` | Price in USD for the smallest size (A3) on budget paper. Other options add to it. |
+| `edition` | Edition size ("Limited Edition of 25"). |
+| `image` | Path to the image file. |
+| `description` | Optional. If missing, the collection description is used. |
+| `theme`, `ratio` | Only used by the placeholder generator. Safe to delete. |
 
-## Add a collection
+## Add or reorder collections
 
-Add an object to `"collections"` (the order here is the order in the gallery):
+The order of `"collections"` is the order you walk past them in the gallery:
 
 ```json
-{ "slug": "new-series", "title": "New Series", "kicker": "2027", "description": "..." }
+{ "slug": "new-series", "title": "New Series", "kicker": "2027", "description": "A short paragraph." }
 ```
+
+`kicker` is the small line shown above the title on the collection page.
 
 ## Site name, artist and email
 
-Edit the `"site"` block at the top of `catalog.json`.
+Edit the `"site"` block at the top of `catalog.json`:
 
-## Prices and options
+```json
+"site": { "name": "Rajdeep Sah", "tagline": "Prints & originals", "artist": "Rajdeep Sah", "email": "hello@example.com", "baseCurrency": "USD" }
+```
 
-Paper, size, signature and frame options and their price rules are in `js/pricing.js` (`OPTIONS`).
-Exchange rates are in `CURRENCIES` in the same file.
+## Prices, options and currencies
+
+- Paper, size, signature and frame options and their price rules: `OPTIONS` in `js/pricing.js`.
+  Price = (basePrice + paper extra) × size factor + signature extra + frame extra × size factor.
+- Exchange rates: `CURRENCIES` in `js/pricing.js`.
+- Delivery prices: `SHIPPING` in `js/ui/checkout.js`.
+
+## Tune the 3D gallery
+
+Settings are in `CFG` at the top of `js/gallery/scene.js`: corridor size, print height, gap between
+prints, how often a print goes on the inner wall, fog, and so on.
+
+## Logo
+
+Replace `assets/logo.svg` (it's also used as the browser tab icon).
 
 ## Regenerate placeholders
 

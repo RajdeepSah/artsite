@@ -12,7 +12,7 @@
 // along the camera path, so theta = -s / CAM_R.
 import * as THREE from 'three';
 import { labelTexture, cardTexture, archTexture, shadowTexture } from './textures.js';
-import { clamp, damp, easeInOutCubic, mod } from '../utils.js';
+import { clamp, damp, easeInOutCubic, mod, reducedMotion } from '../utils.js';
 
 export const CFG = {
   ringRadius: 27,        // preferred outer wall radius (real value depends on catalog size)
@@ -245,7 +245,7 @@ export async function createGallery(o) {
   // ------------------------------------------------------------ camera state
   const startS = standAt(cards[0]);
   const state = {
-    s: startS - 8,          // start a little behind and walk in
+    s: reducedMotion() ? startS : startS - 8, // start a little behind and walk in
     target: startS,
     mode: 'walk',           // 'walk' | 'fly' | 'focus'
     pointer: { x: 0, y: 0, nx: 0, ny: 0, inside: false },

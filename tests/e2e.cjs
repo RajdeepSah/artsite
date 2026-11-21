@@ -154,6 +154,30 @@ test('back to the gallery zooms out and resumes walking', async ({ browser, base
   await context.close();
 });
 
+test('pressing back during the fly-in leaves the gallery working', async ({ browser, base }) => {
+  const { page, context } = await openSite(browser, base);
+  await galleryReady(page);
+  await settle(page);
+  const t = await findPrint(page);
+  await page.mouse.move(t.x, t.y, { steps: 3 });
+  await page.waitForTimeout(200);
+  await page.mouse.click(t.x, t.y);
+  await page.waitForFunction(() => location.hash.startsWith('#/print/'), null, { timeout: 15000 });
+  await page.waitForTimeout(250); // in the middle of the veil / slide
+  await page.goBack();
+  await page.waitForFunction(() => location.hash === '' || location.hash === '#/', null, { timeout: 10000 });
+  await page.waitForFunction(() => window.__gallery.mode === 'walk' && window.__gallery.debug.state.running, null, { timeout: 20000 });
+  await page.waitForTimeout(1200);
+  assert(!(await page.$('.veil')), 'white veil left on screen');
+  assert(!(await page.$('.flip-image')), 'floating image left on screen');
+  assert(await page.evaluate(() => document.body.dataset.view) === 'gallery', 'should be back in the gallery');
+  const s0 = await page.evaluate(() => window.__gallery.debug.state.target);
+  await page.mouse.move(700, 450);
+  await page.mouse.wheel(0, 300);
+  assert(await page.evaluate(() => window.__gallery.debug.state.target) > s0, 'walking should still work');
+  await context.close();
+});
+
 test('list view: 30 prints, filter and sort', async ({ browser, base }) => {
   const { page, context } = await openSite(browser, base, '#/list');
   await page.waitForSelector('.card');

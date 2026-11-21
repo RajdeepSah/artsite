@@ -135,36 +135,37 @@ async function showPage(info, render) {
   const flip = pendingFlip && info.type === 'product' && pendingFlip.slug === info.slug ? pendingFlip : null;
   pendingFlip = null;
 
-  if (flip && flip.from === 'gallery' && fromGallery) {
+  if (flip && (flip.from === 'card' || (flip.from === 'gallery' && fromGallery))) {
     // Gallery -> product: white veil over the 3D view, then the print slides into place.
-    body.classList.add('is-transitioning');
-    const floating = createFloatingImage(flip.src, flip.rect);
-    await veil(true, 480);
-    mountPage(el, true);
-    body.dataset.view = 'page';
-    const target = el.querySelector('[data-flip-target]');
-    target.style.visibility = 'hidden';
-    await imageReady(target);
-    await flipTo(floating, flip.rect, target.getBoundingClientRect(), 850);
-    target.style.visibility = '';
-    floating.remove();
-    revealPage(el);
-    await veil(false, 1);
-    body.classList.remove('is-transitioning');
-    gallery?.pause();
-    selecting = false;
-  } else if (flip && flip.from === 'card') {
     // List card -> product: the card image slides into place.
+    const viaGallery = flip.from === 'gallery';
+    const stale = () => token !== navToken; // the visitor navigated somewhere else meanwhile
     const floating = createFloatingImage(flip.src, flip.rect);
-    mountPage(el, true);
-    body.dataset.view = 'page';
-    const target = el.querySelector('[data-flip-target]');
-    target.style.visibility = 'hidden';
-    await imageReady(target);
-    await flipTo(floating, flip.rect, target.getBoundingClientRect(), 700);
-    target.style.visibility = '';
-    floating.remove();
-    revealPage(el);
+    try {
+      if (viaGallery) {
+        body.classList.add('is-transitioning');
+        await veil(true, 480);
+        if (stale()) return;
+      }
+      mountPage(el, true);
+      body.dataset.view = 'page';
+      const target = el.querySelector('[data-flip-target]');
+      target.style.visibility = 'hidden';
+      await imageReady(target);
+      if (stale()) return;
+      await flipTo(floating, flip.rect, target.getBoundingClientRect(), viaGallery ? 850 : 700);
+      target.style.visibility = '';
+      revealPage(el);
+    } finally {
+      floating.remove();
+      if (viaGallery) {
+        await veil(false, 1);
+        body.classList.remove('is-transitioning');
+        selecting = false;
+      }
+    }
+    if (stale()) return;
+    if (viaGallery) gallery?.pause();
   } else {
     mountPage(el, false);
     body.dataset.view = 'page';
@@ -236,6 +237,7 @@ async function onSelect(item) {
   cursor.hide();
   body.classList.add('hide-toggle');
   await gallery.flyTo(item, reducedMotion() ? 1 : 1300);
+  if (mode !== 'gallery' || currentPath() !== '/') { selecting = false; return; } // visitor went elsewhere
   pendingFlip = { from: 'gallery', slug: item.print.slug, src: item.print.image, rect: gallery.getScreenRect(item) };
   navigate(`/print/${item.print.slug}`);
   setTimeout(() => { selecting = false; }, 4000); // safety net

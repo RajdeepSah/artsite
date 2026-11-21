@@ -190,7 +190,6 @@ export function renderProduct(print, ctx) {
       fs.querySelector('[data-value]').textContent = option(group, opts[group]).label;
       updatePrice();
       updateFrame();
-      if (group === 'size' && view !== 1) setView(view); // keep current view
       return;
     }
     const q = t.closest('[data-qty]');

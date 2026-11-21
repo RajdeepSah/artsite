@@ -1,5 +1,6 @@
 // Checkout + order confirmation (front-end demo: no payment is taken).
-// To take real payments, replace placeOrder() with Stripe Checkout, Shopify, etc.
+// To take real payments, send the order to a payment provider (Stripe Checkout,
+// Shopify, ...) in the form's submit handler below, where the order object is built.
 import { esc, html } from '../utils.js';
 import { describeOptions } from '../pricing.js';
 
