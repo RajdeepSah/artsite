@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rajdeep Sah · Prints &amp; Originals</title>
+  <meta name="description" content="Walk through a 3D gallery of limited edition art prints and buy them online.">
+  <meta name="theme-color" content="#f2f2f2">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/oswald-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/gallery.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/overlays.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body class="is-loading" data-view="gallery">
+  <a class="skip-link" href="#/list">Skip to the list of prints</a>
+
+  <!-- Loading screen -->
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <img class="loader__logo" src="assets/logo.svg" alt="" width="44" height="31">
+    <p class="mono loader__text">Hanging the prints <span id="loader-pct">0%</span></p>
+    <div class="loader__bar"><span id="loader-bar"></span></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="site-header">
+    <div class="site-header__left">
+      <a class="logo" href="#/" aria-label="Home - gallery">
+        <img src="assets/logo.svg" alt="" width="26" height="18">
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Main">
+        <a href="#/" data-nav="index">Index</a>
+        <a href="#/shop" data-nav="shop">Shop</a>
+        <a href="#/info" data-nav="info">Info</a>
+        <a href="#/auctions" data-nav="auctions">Auctions</a>
+        <a href="#/help" data-nav="help">Help</a>
+        <button type="button" class="main-nav__extra" data-open="account">Account</button>
+        <button type="button" class="main-nav__extra" data-open="settings">Settings</button>
+      </nav>
+    </div>
+    <div class="site-header__right">
+      <button class="search-pill" id="search-open" type="button" aria-label="Search prints (Ctrl or Cmd + K)">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+        <span class="search-pill__text">Search</span>
+        <kbd class="mono">⌘K</kbd>
+      </button>
+      <label class="currency" aria-label="Currency">
+        <select id="currency-select" class="mono">
+          <option>USD</option><option>GBP</option><option>EUR</option><option>INR</option>
+        </select>
+        <svg class="icon currency__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+      </label>
+      <button class="icon-btn" id="settings-open" type="button" aria-label="Settings" aria-haspopup="true">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.6M12 18.6v2.6M21.2 12h-2.6M5.4 12H2.8M18.5 5.5l-1.8 1.8M7.3 16.7l-1.8 1.8M18.5 18.5l-1.8-1.8M7.3 7.3 5.5 5.5"/></svg>
+      </button>
+      <button class="icon-btn" id="saved-open" type="button" aria-label="Saved prints">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg>
+        <span class="icon-btn__count" id="saved-count" hidden>0</span>
+      </button>
+      <button class="icon-btn" id="account-open" type="button" aria-label="Account">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg>
+      </button>
+      <button class="icon-btn icon-btn--bag" id="bag-open" type="button" aria-label="Bag">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12.5H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+        <span class="bag-count mono" id="bag-count">0</span>
+      </button>
+      <button class="icon-btn menu-btn" id="menu-open" type="button" aria-label="Menu" aria-expanded="false" aria-controls="main-nav">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Gallery / List toggle -->
+  <div class="view-toggle mono" id="view-toggle" role="group" aria-label="View">
+    <button type="button" data-mode="gallery" class="is-active" aria-pressed="true">Gallery</button>
+    <button type="button" data-mode="list" aria-pressed="false">List</button>
+  </div>
+
+  <main>
+    <!-- 3D gallery -->
+    <section class="gallery" id="gallery" aria-label="3D gallery">
+      <canvas class="gallery__canvas" id="gallery-canvas" tabindex="0" aria-label="3D gallery. Use the arrow keys to walk and Enter to open the painting in front of you."></canvas>
+
+      <div class="hud" id="hud">
+        <div class="hud__title">
+          <p class="mono hud__kicker">You are walking past</p>
+          <h2 class="display hud__name" id="hud-name" aria-live="polite"><span>&nbsp;</span></h2>
+          <a class="mono hud__enter" id="hud-enter" href="#/list">Enter the collection <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hud__controls">
+          <div class="hud__arrows">
+            <button class="round-btn" id="walk-prev" type="button" aria-label="Previous collection">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 7-5 5 5 5"/></svg>
+            </button>
+            <button class="round-btn" id="walk-next" type="button" aria-label="Next collection">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m10 7 5 5-5 5"/></svg>
+            </button>
+          </div>
+          <p class="mono hud__hint">Scroll or drag to walk round<br>Click a painting to look closer</p>
+        </div>
+      </div>
+
+      <div class="cursor" id="cursor" aria-hidden="true">
+        <span class="cursor__ring"></span>
+        <span class="cursor__label mono" id="cursor-label">Open the print</span>
+      </div>
+    </section>
+
+    <!-- Pages (product, list, info, ...) are rendered here -->
+    <section class="page-view" id="page-view" tabindex="-1" hidden></section>
+  </main>
+
+  <!-- Drawers, modals and the search palette are added here -->
+  <div id="overlay-root"></div>
+  <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <p style="padding:80px 24px;font-family:Georgia,serif">This site needs JavaScript to show the gallery.</p>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{
+  "site": {
+    "name": "Rajdeep Sah",
+    "tagline": "Prints & originals",
+    "artist": "Rajdeep Sah",
+    "email": "hello@example.com",
+    "baseCurrency": "USD"
+  },
+  "collections": [
+    {
+      "slug": "sunday-league",
+      "title": "Sunday League - 26/27",
+      "kicker": "New season",
+      "description": "Sunday League is a love letter to the amateur game: muddy pitches, borrowed boots and the friends who turn up every week. Each print freezes a small moment of joy from the touchline, painted in bold, flat colour."
+    },
+    {
+      "slug": "festive-lights",
+      "title": "Festive Lights",
+      "kicker": "Winter series",
+      "description": "A short winter series about the evenings when whole streets glow. Lanterns, late dinners and the quiet walk home after the celebrations end."
+    },
+    {
+      "slug": "radio-1999",
+      "title": "It's 1999 and the Radio's On",
+      "kicker": "Nostalgia",
+      "description": "Bright, loud and a little bit dramatic, this collection remembers the year everyone had a favourite song, a favourite channel and a cassette tape that never left the car stereo."
+    },
+    {
+      "slug": "market-day",
+      "title": "Market Day",
+      "kicker": "Everyday life",
+      "description": "Umbrellas, crates of fruit and the conversations in between. Market Day celebrates the colour and rhythm of a busy morning market."
+    },
+    {
+      "slug": "kits-of-the-world",
+      "title": "Kits of the World",
+      "kicker": "Portraits",
+      "description": "Kits of the World makes football's beauty visible, not just its competition. It reimagines fandom through portraits of supporters wearing the colours of their cities, each one built from stripes, shapes and pride."
+    }
+  ],
+  "prints": [
+    { "slug": "first-touch", "title": "First Touch", "collection": "sunday-league", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/first-touch.jpg", "theme": "pitch", "ratio": "landscape" },
+    { "slug": "half-time-oranges", "title": "Half-Time Oranges", "collection": "sunday-league", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/half-time-oranges.jpg", "theme": "pitch", "ratio": "portrait" },
+    { "slug": "the-keeper", "title": "The Keeper", "collection": "sunday-league", "year": 2026, "basePrice": 55, "edition": 25, "image": "assets/artworks/the-keeper.jpg", "theme": "pitch", "ratio": "portrait" },
+    { "slug": "corner-flag", "title": "Corner Flag", "collection": "sunday-league", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/corner-flag.jpg", "theme": "pitch", "ratio": "portrait" },
+    { "slug": "muddy-boots", "title": "Muddy Boots", "collection": "sunday-league", "year": 2026, "basePrice": 45, "edition": 30, "image": "assets/artworks/muddy-boots.jpg", "theme": "pitch", "ratio": "square" },
+    { "slug": "final-whistle", "title": "Final Whistle", "collection": "sunday-league", "year": 2026, "basePrice": 60, "edition": 20, "image": "assets/artworks/final-whistle.jpg", "theme": "pitch", "ratio": "landscape" },
+
+    { "slug": "friday-night", "title": "Friday Night", "collection": "festive-lights", "year": 2025, "basePrice": 50, "edition": 25, "image": "assets/artworks/friday-night.jpg", "theme": "night", "ratio": "landscape" },
+    { "slug": "lantern-walk", "title": "Lantern Walk", "collection": "festive-lights", "year": 2025, "basePrice": 50, "edition": 25, "image": "assets/artworks/lantern-walk.jpg", "theme": "night", "ratio": "portrait" },
+    { "slug": "midnight-table", "title": "Midnight Table", "collection": "festive-lights", "year": 2025, "basePrice": 55, "edition": 25, "image": "assets/artworks/midnight-table.jpg", "theme": "night", "ratio": "landscape" },
+
+    { "slug": "rewind", "title": "Rewind", "collection": "radio-1999", "year": 2025, "basePrice": 50, "edition": 25, "image": "assets/artworks/rewind.jpg", "theme": "retro", "ratio": "landscape" },
+    { "slug": "top-of-the-charts", "title": "Top of the Charts", "collection": "radio-1999", "year": 2025, "basePrice": 50, "edition": 25, "image": "assets/artworks/top-of-the-charts.jpg", "theme": "retro", "ratio": "landscape" },
+    { "slug": "dial-up", "title": "Dial-Up", "collection": "radio-1999", "year": 2025, "basePrice": 45, "edition": 25, "image": "assets/artworks/dial-up.jpg", "theme": "retro", "ratio": "portrait" },
+    { "slug": "pink-hour", "title": "Pink Hour", "collection": "radio-1999", "year": 2025, "basePrice": 55, "edition": 25, "image": "assets/artworks/pink-hour.jpg", "theme": "retro", "ratio": "landscape" },
+    { "slug": "mixtape", "title": "Mixtape", "collection": "radio-1999", "year": 2025, "basePrice": 50, "edition": 25, "image": "assets/artworks/mixtape.jpg", "theme": "retro", "ratio": "portrait" },
+    { "slug": "rooftop-party", "title": "Rooftop Party", "collection": "radio-1999", "year": 2025, "basePrice": 60, "edition": 20, "image": "assets/artworks/rooftop-party.jpg", "theme": "retro", "ratio": "landscape" },
+    { "slug": "music-video", "title": "Music Video", "collection": "radio-1999", "year": 2025, "basePrice": 50, "edition": 25, "image": "assets/artworks/music-video.jpg", "theme": "retro", "ratio": "landscape" },
+    { "slug": "summer-anthem", "title": "Summer Anthem", "collection": "radio-1999", "year": 2025, "basePrice": 50, "edition": 25, "image": "assets/artworks/summer-anthem.jpg", "theme": "retro", "ratio": "portrait" },
+
+    { "slug": "morning-rush", "title": "Morning Rush", "collection": "market-day", "year": 2024, "basePrice": 45, "edition": 30, "image": "assets/artworks/morning-rush.jpg", "theme": "market", "ratio": "landscape" },
+    { "slug": "umbrellas", "title": "Umbrellas", "collection": "market-day", "year": 2024, "basePrice": 50, "edition": 25, "image": "assets/artworks/umbrellas.jpg", "theme": "market", "ratio": "portrait" },
+    { "slug": "fruit-seller", "title": "Fruit Seller", "collection": "market-day", "year": 2024, "basePrice": 50, "edition": 25, "image": "assets/artworks/fruit-seller.jpg", "theme": "market", "ratio": "portrait" },
+    { "slug": "spice-stall", "title": "Spice Stall", "collection": "market-day", "year": 2024, "basePrice": 50, "edition": 25, "image": "assets/artworks/spice-stall.jpg", "theme": "market", "ratio": "square" },
+    { "slug": "closing-time", "title": "Closing Time", "collection": "market-day", "year": 2024, "basePrice": 55, "edition": 25, "image": "assets/artworks/closing-time.jpg", "theme": "market", "ratio": "landscape" },
+
+    { "slug": "kathmandu", "title": "Kathmandu", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/kathmandu.jpg", "theme": "kit", "ratio": "portrait" },
+    { "slug": "lisbon", "title": "Lisbon", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/lisbon.jpg", "theme": "kit", "ratio": "portrait" },
+    { "slug": "accra", "title": "Accra", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/accra.jpg", "theme": "kit", "ratio": "portrait" },
+    { "slug": "seoul", "title": "Seoul", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/seoul.jpg", "theme": "kit", "ratio": "portrait" },
+    { "slug": "bogota", "title": "Bogota", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/bogota.jpg", "theme": "kit", "ratio": "portrait" },
+    { "slug": "mumbai", "title": "Mumbai", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/mumbai.jpg", "theme": "kit", "ratio": "portrait" },
+    { "slug": "dakar", "title": "Dakar", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/dakar.jpg", "theme": "kit", "ratio": "portrait" },
+    { "slug": "glasgow", "title": "Glasgow", "collection": "kits-of-the-world", "year": 2026, "basePrice": 50, "edition": 25, "image": "assets/artworks/glasgow.jpg", "theme": "kit", "ratio": "portrait" }
+  ]
+}
